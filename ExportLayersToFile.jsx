@@ -1,3 +1,10 @@
+// 設定
+
+enable_trim = true // トリミングするかどうか
+output_invisible_layer = false // 非表示のレイヤーも書き出し
+
+
+
 function getLastSnapshotID(doc) {
   var hsObj = doc.historyStates;
   var hsLength = hsObj.length;
@@ -50,7 +57,7 @@ function revertToSnapshot(doc, snapshotID) {
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         layer = ref[i];
-        if (!layer.visible) {
+        if (!(layer.visible || output_invisible_layer)) {
           continue;
         }
         layer.visible = false;
@@ -84,7 +91,7 @@ function revertToSnapshot(doc, snapshotID) {
   outputLayer = function(doc, layer) {
     var pngSaveOptions, saveFile;
     layer.visible = true;
-    if (!layer.isBackgroundLayer) {
+    if (!layer.isBackgroundLayer && enable_trim) {
       doc.trim(TrimType.TRANSPARENT);
     }
     saveFile = new File(folder.fsName + "/" + layer.name + ".png");

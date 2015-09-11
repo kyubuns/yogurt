@@ -14,7 +14,7 @@ setup = ->
   return true
 
 allLayer = (root) ->
-  list = for layer in root.artLayers when layer.visible
+  list = for layer in root.artLayers when (layer.visible or output_invisible_layer)
     layer.visible = false
     layer
   for set in root.layerSets when set.visible
@@ -32,7 +32,7 @@ main = ->
 
 outputLayer = (doc, layer) ->
   layer.visible = true
-  if !layer.isBackgroundLayer
+  if !layer.isBackgroundLayer and enable_trim
     doc.trim(TrimType.TRANSPARENT)
 
   saveFile = new File("#{folder.fsName}/#{layer.name}.png")
