@@ -89,14 +89,17 @@ function revertToSnapshot(doc, snapshotID) {
   };
 
   outputLayer = function(doc, layer) {
-    var pngSaveOptions, saveFile;
+    var options, saveFile;
     layer.visible = true;
     if (!layer.isBackgroundLayer && enable_trim) {
       doc.trim(TrimType.TRANSPARENT);
     }
     saveFile = new File(folder.fsName + "/" + layer.name + ".png");
-    pngSaveOptions = new PNGSaveOptions();
-    return doc.saveAs(saveFile, pngSaveOptions, true, Extension.LOWERCASE);
+    options = new ExportOptionsSaveForWeb();
+    options.format = SaveDocumentType.PNG;
+    options.optimized = true;
+    options.interlaced = false;
+    return doc.exportDocument(saveFile, ExportType.SAVEFORWEB, options);
   };
 
   if (setup()) {

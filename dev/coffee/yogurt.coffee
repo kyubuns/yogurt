@@ -36,8 +36,11 @@ outputLayer = (doc, layer) ->
     doc.trim(TrimType.TRANSPARENT)
 
   saveFile = new File("#{folder.fsName}/#{layer.name}.png")
-  pngSaveOptions = new PNGSaveOptions()
-  doc.saveAs(saveFile, pngSaveOptions, true, Extension.LOWERCASE)
+  options = new ExportOptionsSaveForWeb()
+  options.format = SaveDocumentType.PNG
+  options.optimized = true
+  options.interlaced = false
+  doc.exportDocument(saveFile, ExportType.SAVEFORWEB, options)
 
 if setup()
   main()
