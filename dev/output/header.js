@@ -1,7 +1,10 @@
 // 設定
 
-enable_trim = true // トリミングするかどうか
-output_invisible_layer = false // 非表示のレイヤーも書き出し
+enableTrim = true // トリミングするかどうか
+outputInvisibleLayer = false // 非表示のレイヤーも書き出し
+format = SaveDocumentType.PNG // 保存形式
+fileName = "{layer_name}.png" // 保存名
+// fileName = "{index}.png" // 01, 02, 03, ...という名前で出力されるようになる
 
 
 

@@ -14,7 +14,7 @@ setup = ->
   return true
 
 allLayer = (root) ->
-  list = for layer in root.artLayers when (layer.visible or output_invisible_layer)
+  list = for layer in root.artLayers when (layer.visible or outputInvisibleLayer)
     layer.visible = false
     layer
   for set in root.layerSets when set.visible
@@ -25,19 +25,24 @@ main = ->
   copiedDoc = app.activeDocument.duplicate(activeDocument.name[..-5] + '.copy.psd')
   targets = allLayer(copiedDoc)
   snapShotId = takeSnapshot(copiedDoc)
+  nameIndex = 1
   for target in targets
-    outputLayer(copiedDoc, target)
+    outputLayer(copiedDoc, target, nameIndex)
+    nameIndex += 1
     revertToSnapshot(copiedDoc, snapShotId)
   copiedDoc.close(SaveOptions.DONOTSAVECHANGES)
 
-outputLayer = (doc, layer) ->
+outputLayer = (doc, layer, nameIndex) ->
   layer.visible = true
-  if !layer.isBackgroundLayer and enable_trim
+  if !layer.isBackgroundLayer and enableTrim
     doc.trim(TrimType.TRANSPARENT)
 
-  saveFile = new File("#{folder.fsName}/#{layer.name}.png")
+  tmpFileName = fileName
+  tmpFileName = tmpFileName.replace("{layer_name}", layer.name)
+  tmpFileName = tmpFileName.replace("{index}", ("0" + nameIndex).slice(-2))
+  saveFile = new File("#{folder.fsName}/#{tmpFileName}")
   options = new ExportOptionsSaveForWeb()
-  options.format = SaveDocumentType.PNG
+  options.format = format
   options.optimized = true
   options.interlaced = false
   doc.exportDocument(saveFile, ExportType.SAVEFORWEB, options)
