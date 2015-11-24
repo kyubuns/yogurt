@@ -10,7 +10,7 @@
 
 ## 使い方
 
-並べたいレイヤーグループを選んで、File->Scripts->ExportLayersToFile
+File->Scripts->ExportLayersToFile
 
 ## LICENSE
 
