@@ -15,8 +15,8 @@ setup = ->
 
 allLayer = (root) ->
   list = for layer in root.layers when (layer.visible or outputInvisibleLayer)
-    if layer instanceof ArtLayer
-      layer.visible = false
+    if layer.typename == "ArtLayer"
+      layer.visible = false unless layer.name in backgroundLayerNames
       layer
     else
       allLayer(layer)
