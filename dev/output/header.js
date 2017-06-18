@@ -11,6 +11,6 @@ fileName = "{layer_name}.png" // 保存名
 // - {file_name} - ファイル名
 
 backgroundLayerNames = [] // 背景(必ず映し込む)用レイヤー名
-
+folder = "" // 保存先(空白にしておくと保存先を指定するダイアログが表示される)
 
 

@@ -1,4 +1,4 @@
-folder = null
+outputFolder = folder
 
 setup = ->
   preferences.rulerUnits = Units.PIXELS
@@ -7,10 +7,14 @@ setup = ->
     alert('cannot access document')
     return false
 
-  folder = Folder.selectDialog("保存先フォルダの選択")
-  if folder == null
+  if outputFolder != undefined && outputFolder != null && outputFolder != ""
+    return true
+
+  outputFolder = Folder.selectDialog("保存先フォルダの選択")
+  if outputFolder == null
     return false
 
+  outputFolder = outputFolder.fsName
   return true
 
 allLayer = (root) ->
@@ -45,7 +49,7 @@ outputLayer = (doc, layer, nameIndex, rnameIndex, documentFileName) ->
   tmpFileName = tmpFileName.replace("{file_name}", documentFileName)
   tmpFileName = tmpFileName.replace("{index}", ("0" + nameIndex).slice(-2))
   tmpFileName = tmpFileName.replace("{rindex}", ("0" + rnameIndex).slice(-2))
-  saveFile = new File("#{folder.fsName}/#{tmpFileName}")
+  saveFile = new File("#{outputFolder}/#{tmpFileName}")
   options = new ExportOptionsSaveForWeb()
   options.format = format
   options.optimized = true
