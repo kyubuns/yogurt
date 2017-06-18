@@ -24,23 +24,25 @@ allLayer = (root) ->
   Array.prototype.concat.apply([], list) # list.flatten()
 
 main = ->
+  documentFileName = app.activeDocument.name[..-5]
   copiedDoc = app.activeDocument.duplicate(activeDocument.name[..-5] + '.copy.psd')
   targets = allLayer(copiedDoc)
   snapShotId = takeSnapshot(copiedDoc)
   nameIndex = 1
   for target in targets
-    outputLayer(copiedDoc, target, nameIndex, targets.length - nameIndex + 1)
+    outputLayer(copiedDoc, target, nameIndex, targets.length - nameIndex + 1, documentFileName)
     nameIndex += 1
     revertToSnapshot(copiedDoc, snapShotId)
   copiedDoc.close(SaveOptions.DONOTSAVECHANGES)
 
-outputLayer = (doc, layer, nameIndex, rnameIndex) ->
+outputLayer = (doc, layer, nameIndex, rnameIndex, documentFileName) ->
   layer.visible = true
   if !layer.isBackgroundLayer and enableTrim
     doc.trim(TrimType.TRANSPARENT)
 
   tmpFileName = fileName
   tmpFileName = tmpFileName.replace("{layer_name}", layer.name)
+  tmpFileName = tmpFileName.replace("{file_name}", documentFileName)
   tmpFileName = tmpFileName.replace("{index}", ("0" + nameIndex).slice(-2))
   tmpFileName = tmpFileName.replace("{rindex}", ("0" + rnameIndex).slice(-2))
   saveFile = new File("#{folder.fsName}/#{tmpFileName}")
