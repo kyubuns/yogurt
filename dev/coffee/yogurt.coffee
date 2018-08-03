@@ -50,11 +50,7 @@ outputLayer = (doc, layer, nameIndex, rnameIndex, documentFileName) ->
   tmpFileName = tmpFileName.replace("{index}", ("0" + nameIndex).slice(-2))
   tmpFileName = tmpFileName.replace("{rindex}", ("0" + rnameIndex).slice(-2))
   saveFile = new File("#{outputFolder}/#{tmpFileName}")
-  options = new ExportOptionsSaveForWeb()
-  options.format = format
-  options.optimized = true
-  options.interlaced = false
-  doc.exportDocument(saveFile, ExportType.SAVEFORWEB, options)
+  doc.saveAs(saveFile, SaveDocumentType.PHOTOSHOP, true, Extension.LOWERCASE)
 
 if setup()
   main()
