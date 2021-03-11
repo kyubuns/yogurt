@@ -52,8 +52,15 @@ outputLayer = (doc, layer, nameIndex, rnameIndex, documentFileName) ->
   saveFile = new File("#{outputFolder}/#{tmpFileName}")
   options = new ExportOptionsSaveForWeb()
   options.format = format
+
   options.optimized = true
-  options.interlaced = false
+  options.interlaced = true
+  options.includeProfile = true
+  options.quality = 100
+  options.lossy = 0
+  options.PNG8 = false
+  options.bur = 0
+
   doc.exportDocument(saveFile, ExportType.SAVEFORWEB, options)
 
 if setup()
